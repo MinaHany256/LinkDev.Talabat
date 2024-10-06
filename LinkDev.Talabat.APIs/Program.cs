@@ -1,4 +1,9 @@
 
+using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
+
+
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -13,10 +18,14 @@ namespace LinkDev.Talabat.APIs
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(); 
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddPersistenceServices(builder.Configuration);
+            //DependencyInjection.AddPersistenceServices(builder.Services, builder.Configuration);
+
             #endregion
 
-            var app = builder.Build();
+             var app = builder.Build();
 
             #region Configure Kestrel Middlewares
             // Configure the HTTP request pipeline.
