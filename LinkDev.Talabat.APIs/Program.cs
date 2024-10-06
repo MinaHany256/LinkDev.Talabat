@@ -29,8 +29,8 @@ namespace LinkDev.Talabat.APIs
 
             #endregion
 
+            #region Update-Database
             var app = builder.Build();
-
             using var scope = app.Services.CreateAsyncScope();
             var services = scope.ServiceProvider;
             var dbContext = services.GetRequiredService<StoreContext>();
@@ -45,12 +45,15 @@ namespace LinkDev.Talabat.APIs
 
                 if (PendingMigrations.Any())
                     await dbContext.Database.MigrateAsync(); // Update-Database
+
+                await StoreContextSeed.SeedAsync(dbContext);
             }
             catch (Exception ex)
             {
-                 var Logger = LoggerFactory.CreateLogger<Program>();
+                var Logger = LoggerFactory.CreateLogger<Program>();
                 Logger.LogError(ex, "An Error Has Been Occured during applying the Migration. ");
-            }
+            } 
+            #endregion
 
             #region Configure Kestrel Middlewares
             // Configure the HTTP request pipeline.
