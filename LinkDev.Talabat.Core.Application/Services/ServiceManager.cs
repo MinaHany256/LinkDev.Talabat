@@ -14,9 +14,11 @@ namespace LinkDev.Talabat.Core.Application.Services
     internal class ServiceManager : IServiceManager
     {
         private readonly Lazy<IProductService> _productService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            _unitOfWork = unitOfWork;
             _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, mapper));
         }
 

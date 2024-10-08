@@ -3,6 +3,8 @@ using LinkDev.Talabat.Core.Application.Abstraction.Products;
 using LinkDev.Talabat.Core.Application.Abstraction.Products.Models;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entites.Products;
+using LinkDev.Talabat.Core.Domain.Specifications;
+using LinkDev.Talabat.Core.Domain.Specifications.Product_Specs;
 
 namespace LinkDev.Talabat.Core.Application.Services.Products
 {
@@ -24,11 +26,26 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync()
             => _mapper.Map<IEnumerable<CategoryDto>>(await _unitOfWork.GetRepository<ProductCategory, int>().GetAllAsync());
 
-        public async Task<ProductToReturnDto> GetProductAsync(int Id)
-        => _mapper.Map<ProductToReturnDto>(await _unitOfWork.GetRepository<Product, int>().GetAsync(Id));
+        public async Task<ProductToReturnDto> GetProductAsync(int id)
+        {
+            var specs = new ProductWithBrandAndCategorySpecifications(id);
+
+            var product = await _unitOfWork.GetRepository<Product, int>().GetWithSpecAsync(specs);
+
+            var mappedProduct = _mapper.Map<ProductToReturnDto>(product);
+
+            return mappedProduct;
+        }
 
 
         public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
-        => _mapper.Map<IEnumerable<ProductToReturnDto>>(await _unitOfWork.GetRepository<Product, int>().GetAllAsync());
+        {
+            var specs = new ProductWithBrandAndCategorySpecifications();
+           
+
+            var products = _mapper.Map<IEnumerable<ProductToReturnDto>>(await _unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs));
+
+            return products;    
+        }
     }
 }

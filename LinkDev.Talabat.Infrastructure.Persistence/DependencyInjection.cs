@@ -1,6 +1,7 @@
 ﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors;
+using LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
             }/*, contextLifetime: ServiceLifetime.Scoped , optionsLifetime: ServiceLifetime.Scoped*/);
 
             services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
+
+            services.AddScoped<IUnitOfWork,UnitOfWork.UnitOfWork>();
 
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BaseAuditableEntityInterceptor));
 
