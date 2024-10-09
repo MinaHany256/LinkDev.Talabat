@@ -31,6 +31,7 @@ namespace LinkDev.Talabat.APIs
             //DependencyInjection.AddPersistenceServices(builder.Services, builder.Configuration);
 
             //builder.Services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
             builder.Services.AddApplicationServices();
 

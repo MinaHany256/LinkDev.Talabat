@@ -9,10 +9,10 @@ namespace LinkDev.Talabat.APIs.Services
 
         public string? UserId { get; }
 
-        public LoggedInUserService(/*IHttpContextAccessor? httpContextAccessor*/)
+        public LoggedInUserService(IHttpContextAccessor? httpContextAccessor)
         {
-            //_httpContextAccessor = httpContextAccessor;
-            UserId = _httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            _httpContextAccessor = httpContextAccessor;
+            UserId = _httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.PrimarySid);
         }
 
     }
