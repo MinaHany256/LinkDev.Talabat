@@ -1,6 +1,8 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction;
+using LinkDev.Talabat.Core.Application.Abstraction.Products;
 using LinkDev.Talabat.Core.Application.Mapping;
 using LinkDev.Talabat.Core.Application.Services;
+using LinkDev.Talabat.Core.Application.Services.Products;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkDev.Talabat.Core.Application
