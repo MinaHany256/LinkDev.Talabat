@@ -22,7 +22,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
 
             services.AddScoped<IStoreContextInitializer, StoreContextInitializer>();
 
-            services.AddScoped<IUnitOfWork,UnitOfWork.UnitOfWork>();
+            services.AddScoped(typeof(IUnitOfWork) , typeof(UnitOfWork.UnitOfWork));
 
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
 
