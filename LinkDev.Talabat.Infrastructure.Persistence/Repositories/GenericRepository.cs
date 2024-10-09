@@ -25,12 +25,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
             {
                 return (IEnumerable<TEntity>)(AsNoTracking?
                     await _dbContext.Set<Product>().Include(P => P.Brand).Include(C => C.Category).ToListAsync():
-                    await _dbContext.Set<Product>().Include(P => P.Brand).Include(C => C.Category).AsNoTracking().ToListAsync());
+                    await _dbContext.Set<Product>().Include(P => P.Brand).Include(C => C.Category).AsNoTrackingWithIdentityResolution().ToListAsync());
 
             }
 
             return AsNoTracking? await _dbContext.Set<TEntity>().ToListAsync(): 
-                    await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
+                    await _dbContext.Set<TEntity>().AsNoTrackingWithIdentityResolution().ToListAsync();
         }
 
 
