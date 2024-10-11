@@ -25,12 +25,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
             {
                 return (IEnumerable<TEntity>)(AsNoTracking?
                     await _dbContext.Set<Product>().Include(P => P.Brand).Include(C => C.Category).ToListAsync():
-                    await _dbContext.Set<Product>().Include(P => P.Brand).Include(C => C.Category).AsNoTrackingWithIdentityResolution().ToListAsync());
+                    await _dbContext.Set<Product>().Include(P => P.Brand).Include(C => C.Category).AsNoTracking().ToListAsync());
 
             }
 
             return AsNoTracking? await _dbContext.Set<TEntity>().ToListAsync(): 
-                    await _dbContext.Set<TEntity>().AsNoTrackingWithIdentityResolution().ToListAsync();
+                    await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
 
@@ -51,12 +51,22 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAllWithSpecAsync(ISpecifications<TEntity, TKey> spec, bool AsNoTracking = false)
         {
-            return await SpecificationsEvaluator<TEntity, TKey>.GetQuery(_dbContext.Set<TEntity>(), spec).ToListAsync();
+            return await ApplySpecifications(spec).ToListAsync();
         }
 
         public async Task<TEntity?> GetWithSpecAsync(ISpecifications<TEntity, TKey> spec)
         {
             return await SpecificationsEvaluator<TEntity, TKey>.GetQuery(_dbContext.Set<TEntity>(), spec).FirstOrDefaultAsync();
         }
+
+
+        #region Helpers
+
+        private IQueryable<TEntity> ApplySpecifications(ISpecifications<TEntity, TKey> spec)
+        {
+            return SpecificationsEvaluator<TEntity, TKey>.GetQuery(_dbContext.Set<TEntity>(), spec);
+        }
+
+        #endregion
     }
 }
