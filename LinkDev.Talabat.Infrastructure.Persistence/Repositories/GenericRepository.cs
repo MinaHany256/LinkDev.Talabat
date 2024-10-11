@@ -56,9 +56,13 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
 
         public async Task<TEntity?> GetWithSpecAsync(ISpecifications<TEntity, TKey> spec)
         {
-            return await SpecificationsEvaluator<TEntity, TKey>.GetQuery(_dbContext.Set<TEntity>(), spec).FirstOrDefaultAsync();
+            return await ApplySpecifications(spec).FirstOrDefaultAsync();
         }
 
+        public async Task<int> GetCountAsync(ISpecifications<TEntity, TKey> spec)
+        {
+            return await ApplySpecifications(spec).CountAsync();
+        }
 
         #region Helpers
 
@@ -66,6 +70,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories
         {
             return SpecificationsEvaluator<TEntity, TKey>.GetQuery(_dbContext.Set<TEntity>(), spec);
         }
+
+
 
         #endregion
     }
