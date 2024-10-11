@@ -6,6 +6,15 @@
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
 
+        private string? search;
+
+        public string? Search
+        {
+            get { return search; }
+            set { search = value?.ToUpper(); }
+        }
+
+
         public int PageIndex { get; set; } = 1;
 
         private const int MaxPageSize = 10;
