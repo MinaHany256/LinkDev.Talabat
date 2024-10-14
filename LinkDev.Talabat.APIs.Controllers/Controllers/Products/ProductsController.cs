@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Controllers.Base;
+using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.Core.Application.Abstraction;
 using LinkDev.Talabat.Core.Application.Abstraction.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Products.Models;
@@ -16,13 +17,13 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
             return Ok(products);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProduct(int id)
         {
             var product = await serviceManager.ProductService.GetProductAsync(id);
 
             if (product == null)
-                return NotFound();
+                return NotFound(new ApiResponse(404, $"Product with Id: {id} is not found."));
 
             return Ok(product);
         }
