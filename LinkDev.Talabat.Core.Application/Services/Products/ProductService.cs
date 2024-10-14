@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstraction.Common;
 using LinkDev.Talabat.Core.Application.Abstraction.Products;
 using LinkDev.Talabat.Core.Application.Abstraction.Products.Models;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
@@ -38,14 +39,18 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         }
 
 
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
+        public async Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSpecParams specParams)
         {
-            var specs = new ProductWithBrandAndCategorySpecifications();
+            var specs = new ProductWithBrandAndCategorySpecifications(specParams.Sort, specParams.BrandId, specParams.CategoryId, specParams.PageSize, specParams.PageIndex, specParams.Search);
            
 
             var products = _mapper.Map<IEnumerable<ProductToReturnDto>>(await _unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs));
 
-            return products;    
+            var countSpec = new ProductWithFiterationForCountSpecifications(specParams.BrandId, specParams.CategoryId, specParams.Search);
+
+            var count = await _unitOfWork.GetRepository<Product, int>().GetCountAsync(countSpec);
+
+            return new Pagination<ProductToReturnDto>(specParams.PageIndex, specParams.PageSize, products , count );    
         }
     }
 }
