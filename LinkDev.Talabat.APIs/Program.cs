@@ -6,6 +6,7 @@ using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.APIs.Middlewares;
 
 
 namespace LinkDev.Talabat.APIs
@@ -21,6 +22,7 @@ namespace LinkDev.Talabat.APIs
 
             #region Configure Services
             // Add services to the container.
+
 
             builder.Services
                 .AddControllers()
@@ -66,6 +68,9 @@ namespace LinkDev.Talabat.APIs
 
             #region Configure Kestrel Middlewares
             // Configure the HTTP request pipeline.
+
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
