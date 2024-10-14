@@ -27,6 +27,8 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
                 await _next(httpContext);
 
+               
+
                 // Logic Executed with the response
 
             }
