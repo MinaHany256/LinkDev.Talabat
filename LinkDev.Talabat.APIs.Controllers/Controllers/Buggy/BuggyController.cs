@@ -28,6 +28,8 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("badrequest/{id}")]
         public IActionResult GetValidationError(int id)
         {
+            
+
             return Ok();
         }
 
