@@ -1,4 +1,4 @@
-﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Products.Models
+﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
 {
     public class CategoryDto
     {

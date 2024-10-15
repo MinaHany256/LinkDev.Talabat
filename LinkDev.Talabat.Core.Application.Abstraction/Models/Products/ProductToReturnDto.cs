@@ -1,4 +1,4 @@
-﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Products.Models
+﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
 {
     public class ProductToReturnDto
     {
@@ -15,4 +15,3 @@
         public string? Category { get; set; }
     }
 }
-    

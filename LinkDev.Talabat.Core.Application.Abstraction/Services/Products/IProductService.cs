@@ -1,7 +1,7 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstraction.Common;
-using LinkDev.Talabat.Core.Application.Abstraction.Products.Models;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Products;
 
-namespace LinkDev.Talabat.Core.Application.Abstraction.Products
+namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Products
 {
     public interface IProductService
     {
