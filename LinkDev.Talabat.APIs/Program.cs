@@ -1,12 +1,13 @@
 
-using LinkDev.Talabat.APIs.Extensions;
-using LinkDev.Talabat.APIs.Services;
-using LinkDev.Talabat.Core.Application.Abstraction;
-using LinkDev.Talabat.Infrastructure.Persistence;
-using LinkDev.Talabat.Core.Application;
-using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.APIs.Extensions;
 using LinkDev.Talabat.APIs.Middlewares;
+using LinkDev.Talabat.APIs.Services;
+using LinkDev.Talabat.Core.Application;
+using LinkDev.Talabat.Core.Application.Abstraction;
+using LinkDev.Talabat.Infrastructure;
+using LinkDev.Talabat.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace LinkDev.Talabat.APIs
@@ -55,6 +56,8 @@ namespace LinkDev.Talabat.APIs
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
             builder.Services.AddApplicationServices();
+
+            builder.Services.AddInfrastructureServices(builder.Configuration);
 
             #endregion
 
