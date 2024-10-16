@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
 {
-    public class BuggyController : ApiControllerBase
+    public class BuggyController : BaseApiController
     {
 
         [HttpGet("notfound")]
-        public IActionResult GetNotFoundRequest()
+        public IActionResult GetNotFoundError()
         {
+            //throw new NotFoundException();
             return NotFound(new ApiResponse(404));   // 404
         }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Basket
 {
-    public class BasketController(IServiceManager serviceManager) : ApiControllerBase
+    public class BasketController(IServiceManager serviceManager) : BaseApiController
     {
 
         [HttpGet]

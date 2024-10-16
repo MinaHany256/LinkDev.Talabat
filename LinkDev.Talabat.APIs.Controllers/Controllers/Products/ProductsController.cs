@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
 {
-    public class ProductsController(IServiceManager serviceManager) : ApiControllerBase
+    public class ProductsController(IServiceManager serviceManager) : BaseApiController
     {
 
         [HttpGet]
@@ -21,10 +21,6 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Products
         public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProduct(int id)
         {
             var product = await serviceManager.ProductService.GetProductAsync(id);
-
-            if (product == null)
-                return NotFound(new ApiResponse(404, $"Product with Id: {id} is not found."));
-
             return Ok(product);
         }
 
