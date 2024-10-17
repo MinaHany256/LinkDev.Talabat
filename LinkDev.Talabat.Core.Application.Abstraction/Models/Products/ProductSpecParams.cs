@@ -1,4 +1,4 @@
-﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Products.Models
+﻿namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Products
 {
     public class ProductSpecParams
     {
@@ -19,7 +19,7 @@
 
         private const int MaxPageSize = 10;
         private int pageSize = 5;
-        public int PageSize 
+        public int PageSize
         {
             get { return pageSize; }
             set { pageSize = value > MaxPageSize ? MaxPageSize : value; }
