@@ -5,8 +5,11 @@ using LinkDev.Talabat.APIs.Middlewares;
 using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction;
+using LinkDev.Talabat.Core.Domain.Entites.Identity;
 using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Infrastructure.Persistence;
+using LinkDev.Talabat.Infrastructure.Persistence._Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -50,15 +53,22 @@ namespace LinkDev.Talabat.APIs
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddPersistenceServices(builder.Configuration);
-            //DependencyInjection.AddPersistenceServices(builder.Services, builder.Configuration);
-
-            //builder.Services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
-            builder.Services.AddApplicationServices();
 
+            builder.Services.AddApplicationServices();
+            builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddInfrastructureServices(builder.Configuration);
+
+            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>(); 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>((IdentityOptions) =>
+            {
+                IdentityOptions.SignIn.RequireConfirmedAccount = true;
+                IdentityOptions.SignIn.RequireConfirmedEmail = true;
+                IdentityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+
+            })
+                .AddEntityFrameworkStores<StoreIdentityDbContext>(); 
 
             #endregion
 
@@ -66,7 +76,7 @@ namespace LinkDev.Talabat.APIs
 
             #region DataBase Initialization
 
-            await app.InitializeStoreContextAsync();
+            await app.InitializeDbAsync();
 
             #endregion
 
