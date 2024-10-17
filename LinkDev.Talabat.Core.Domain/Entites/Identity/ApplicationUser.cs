@@ -2,10 +2,10 @@
 
 namespace LinkDev.Talabat.Core.Domain.Entites.Identity
 {
-    public class ApplicationUser : IdentityUser<string>
+    public class ApplicationUser : IdentityUser
     {
         public required string DisplayName { get; set; }
-        public Address? Address { get; set; }
+        public virtual Address? Address { get; set; }
 
     }
 }
