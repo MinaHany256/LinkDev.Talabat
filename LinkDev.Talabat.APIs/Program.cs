@@ -5,6 +5,7 @@ using LinkDev.Talabat.APIs.Middlewares;
 using LinkDev.Talabat.APIs.Services;
 using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.Core.Application.Abstraction;
+using LinkDev.Talabat.Core.Application.Abstraction.Models.Auth;
 using LinkDev.Talabat.Core.Domain.Entites.Identity;
 using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Infrastructure.Persistence;
@@ -60,15 +61,7 @@ namespace LinkDev.Talabat.APIs
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddInfrastructureServices(builder.Configuration);
 
-            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>(); 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>((IdentityOptions) =>
-            {
-                IdentityOptions.SignIn.RequireConfirmedAccount = true;
-                IdentityOptions.SignIn.RequireConfirmedEmail = true;
-                IdentityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-
-            })
-                .AddEntityFrameworkStores<StoreIdentityDbContext>(); 
+            builder.Services.AddIdentityServices(builder.Configuration);
 
             #endregion
 
