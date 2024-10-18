@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Errors
@@ -26,8 +27,11 @@ namespace LinkDev.Talabat.APIs.Controllers.Errors
                 404 => "Resource was not found",
                 500 => "Errors",
                 _ => null,
-            };
+            }; 
         }
+
+        public override string ToString() => JsonSerializer.Serialize(this, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
+        
     }
 
 }

@@ -8,10 +8,10 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Models.Auth
         public required string DisplayName { get; set; }
 
         [Required]
-        [EmailAddress]
         public required string UserName { get; set; }
 
         [Required]
+        [EmailAddress]
         public required string Email { get; set; }
 
         [Required]

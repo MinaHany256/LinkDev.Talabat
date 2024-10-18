@@ -66,7 +66,7 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
                     response = new ApiResponse(404, ex.Message);
 
-                    await httpContext.Response.WriteAsync(response.ToString()!);
+                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
                 case BadRequestException:
@@ -75,7 +75,7 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
                     response = new ApiResponse(400, ex.Message);
 
-                    await httpContext.Response.WriteAsync(response.ToString()!);
+                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
                 case UnAuthorizedException:
@@ -84,7 +84,7 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
                     response = new ApiResponse(401, ex.Message);
 
-                    await httpContext.Response.WriteAsync(response.ToString()!);
+                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
                 default:
@@ -98,7 +98,7 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     httpContext.Response.ContentType = "application/json";
 
-                    await httpContext.Response.WriteAsync(response.ToString()!);
+                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
 
