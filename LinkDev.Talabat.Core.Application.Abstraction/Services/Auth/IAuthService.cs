@@ -6,6 +6,6 @@ namespace LinkDev.Talabat.Core.Application.Abstraction.Services.Auth
     {
         Task<UserDto> LoginAsync(LoginDto model);
 
-        Task<UserDto> Register(RegisterDto model);
+        Task<UserDto> RegisterAsync(RegisterDto model);
     }
 }

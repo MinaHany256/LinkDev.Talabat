@@ -11,7 +11,7 @@ using System.Text;
 
 namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
-    internal class AuthService(
+    public class AuthService(
         IOptions<JwtSettings> jwtSettings ,
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager) : IAuthService
@@ -22,13 +22,13 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
         {
             var user = await userManager.FindByEmailAsync(model.Email);
 
-            if (user is null) throw new BadRequestException("Invalid Login");
+            if (user is null) throw new UnAuthorizedException("Invalid Login");
 
             var reult = await signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: true);
 
-            if (!reult.Succeeded) throw new BadRequestException("Invalid Login");
+            if (!reult.Succeeded) throw new UnAuthorizedException("Invalid Login");
 
-            var response = new UserDto()
+                var response = new UserDto()
             {
                 Id = user.Id,
                 DisplayName = user.DisplayName,
@@ -39,7 +39,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             return response;
         }
 
-        public async Task<UserDto> Register(RegisterDto model)
+        public async Task<UserDto> RegisterAsync(RegisterDto model)
         {
             var user = new ApplicationUser()
             {
@@ -66,7 +66,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
         }
 
         private async Task<string> GenerateTokenAsync(ApplicationUser user)
-        {
+            {
             // Private Claims
             var privateClaims = new List<Claim>()
             {
