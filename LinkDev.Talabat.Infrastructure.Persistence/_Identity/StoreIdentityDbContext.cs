@@ -1,7 +1,8 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entites.Identity;
-using LinkDev.Talabat.Infrastructure.Persistence._Identity.Config;
+using LinkDev.Talabat.Infrastructure.Persistence._Common;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
 {
@@ -17,8 +18,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
         {
             base.OnModelCreating(builder);
 
-            builder.ApplyConfiguration(new ApplicationUserConfigurations());
-            builder.ApplyConfiguration(new AddressConfigurations());
+            builder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+                 type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreIdentityDbContext));
         }
 
     }

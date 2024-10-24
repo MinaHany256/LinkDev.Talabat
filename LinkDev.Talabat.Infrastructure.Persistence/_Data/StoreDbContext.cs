@@ -1,6 +1,8 @@
 ﻿using LinkDev.Talabat.Core.Domain.Common;
 using LinkDev.Talabat.Core.Domain.Entites.Products;
+using LinkDev.Talabat.Infrastructure.Persistence._Common;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 {
@@ -20,26 +22,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+                type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreDbContext));
         }
 
-        //public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        //{
-
-        //    foreach (var entry in this.ChangeTracker.Entries<BaseAuditableEntity<int>>()
-        //        .Where(entity => entity.State is EntityState.Added or EntityState.Modified))
-        //    {
-        //        if (entry.State is EntityState.Added or EntityState.Modified)
-        //        {
-        //            entry.Entity.CreatedBy = "";
-        //            entry.Entity.CreatedOn = DateTime.UtcNow;   
-        //        }
-        //            entry.Entity.LastModifiedBy = "";
-        //            entry.Entity.LastModifiedOn = DateTime.UtcNow;
-
-        //        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        //    }
-        //}
 
     }
 }
