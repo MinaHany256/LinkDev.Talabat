@@ -10,15 +10,19 @@ namespace LinkDev.Talabat.Infrastructure.Persistence._Identity
 
         public override async Task SeddAsync()
         {
-            var user = new ApplicationUser()
+            if (!_userManager.Users.Any())
             {
-                DisplayName = "Mina Hany",
-                UserName = "Mina.hany",
-                Email = "mina.hany@gmail.com",
-                PhoneNumber = "01211370223"
-            };
+                var user = new ApplicationUser()
+                {
+                    DisplayName = "Mina Hany",
+                    UserName = "Mina.hany",
+                    Email = "mina.hany@gmail.com",
+                    PhoneNumber = "01211370223"
+                };
 
-            await _userManager.CreateAsync(user, "P@ssw0rd");
+                await _userManager.CreateAsync(user, "P@ssw0rd");
+
+            }
 
         }
     }
