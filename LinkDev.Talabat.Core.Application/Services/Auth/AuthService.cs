@@ -78,7 +78,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             foreach (var role in await userManager.GetRolesAsync(user))
                 privateClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
 
-            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 
             var tokenObj = new JwtSecurityToken(
                 
@@ -86,7 +86,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
                 issuer: _jwtSettings.Issuer,
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 claims: privateClaims,
-                signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256)
+                signingCredentials: new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256)
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(tokenObj);
