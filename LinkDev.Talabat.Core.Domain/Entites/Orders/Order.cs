@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Entites.Orders
 {
-    internal class Order : BaseAuditableEntity<int>
+    public class Order : BaseAuditableEntity<int>
     {
         public required string BuyerEmail { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
