@@ -30,7 +30,10 @@ namespace LinkDev.Talabat.APIs
 
 
             builder.Services
-                .AddControllers()
+                .AddControllers().AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressModelStateInvalidFilter = false;

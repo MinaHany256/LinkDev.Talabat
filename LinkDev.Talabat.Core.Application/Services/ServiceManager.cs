@@ -26,7 +26,7 @@ namespace LinkDev.Talabat.Core.Application.Services
             _mapper = mapper;
             _configuration = configuration;
             _productService = new Lazy<IProductService>(() => new ProductService(_unitOfWork, _mapper));
-            _orderService = new Lazy<IOrderService>(orderServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication)
+            _orderService = new Lazy<IOrderService>(orderServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);
             _basketService = new Lazy<IBasketService>(basketServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);
             _authService = new Lazy<IAuthService>(authServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);
         }
