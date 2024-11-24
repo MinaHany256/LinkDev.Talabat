@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors
 {
-    public class CustomSaveChangesInterceptor : SaveChangesInterceptor
+    public class AuditInterceptor : SaveChangesInterceptor
     {
         private readonly ILoggedInUserService _loggedInUserService;
 
-        public CustomSaveChangesInterceptor(ILoggedInUserService loggedInUserService)
+        public AuditInterceptor(ILoggedInUserService loggedInUserService)
         {
             _loggedInUserService = loggedInUserService;
         }
@@ -31,24 +31,37 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors
         {
             if (dbContext is null) return;
 
-            var UtcNow = DateTime.UtcNow;
 
-            foreach (var entry in dbContext.ChangeTracker.Entries<BaseAuditableEntity<int>>()
-                 .Where(entity => entity.State is EntityState.Added or EntityState.Modified))
+            var entries = dbContext.ChangeTracker.Entries<IBaseAuditableEntity>()
+                 .Where(entry => entry.GetType().IsSubclassOf(typeof(BaseAuditableEntity<>)) && entry is { State: EntityState.Added or EntityState.Modified });
+
+            foreach (var entry in entries)
             {
+                var entity = entry.Entity;
 
+                var userId = _loggedInUserService.UserId;
+                var currentTime = DateTime.UtcNow;
 
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = _loggedInUserService.UserId!;
-                    entry.Entity.CreatedOn = UtcNow;
-
+                    SetPropertyIfExists(entity, "CreatedBy", userId!);
+                    SetPropertyIfExists(entity, "CreatedOn", currentTime);
                 }
 
-                entry.Entity.LastModifiedBy = _loggedInUserService.UserId!;
-                entry.Entity.LastModifiedOn = UtcNow;
+                SetPropertyIfExists(entity, "LastModifiedBy", userId!);
+                SetPropertyIfExists(entity, "LastModifiedOn", currentTime);
+
             }
 
+        }
+
+        private void SetPropertyIfExists(object entity, string propertyName, object value)
+        {
+            var property = entity.GetType().GetProperty(propertyName);
+            if (property != null && property.CanWrite)
+            {
+                property.SetValue(entity, value);
+            }
         }
 
     }
